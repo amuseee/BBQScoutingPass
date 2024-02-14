@@ -1652,24 +1652,37 @@ function clearForm() {
       }
     }
     cycles = []
+    
+let break_component;
+let auton_specifier = "cyclea";
+let teleop_specifier = "cycleb";
 
-    let auton_specifier = bicycle_component_identifier + 'a'
-    let teleop_specifier = bicycle_component_identifier + 't'
+// auton tr wrap
+break_component = document.getElementById(`break_${auton_specifier}break`);
+break_component.setAttribute("nof_cycles", "0");
+if (break_component.hasAttribute("prev_cycle_end_time")) {
+  break_component.removeAttribute("prev_cycle_end_time");
+}
 
-    let break_component;
-    break_component = document.getElementById(`break_${auton_specifier}break`)
-    break_component.setAttribute("nof_cycles", "0")
-    break_component.innerHTML = `Auton Cycle Form (${break_component.getAttribute("nof_cycles")}):` + '&nbsp;';
-    if (break_component.hasAttribute("prev_cycle_end_time")) {
-      break_component.removeAttribute("prev_cycle_end_time")
-    }
+let autonRow = document.createElement("tr");
+autonRow.classList.add("larger-tr"); 
+autonRow.appendChild(break_component.cloneNode(true)); 
 
-    break_component = document.getElementById(`break_${teleop_specifier}break`)
-    break_component.setAttribute("nof_cycles", "0")
-    if (break_component.hasAttribute("prev_cycle_end_time")) {
-      break_component.removeAttribute("prev_cycle_end_time")
-    }
-    break_component.innerHTML = `Teleop Cycle Form (${break_component.getAttribute("nof_cycles")}):` + '&nbsp;';
+// teleop tr wrap
+break_component = document.getElementById(`break_${teleop_specifier}break`);
+break_component.setAttribute("nof_cycles", "0");
+if (break_component.hasAttribute("prev_cycle_end_time")) {
+  break_component.removeAttribute("prev_cycle_end_time");
+}
+
+let teleopRow = document.createElement("tr");
+teleopRow.classList.add("larger-tr"); 
+teleopRow.appendChild(break_component.cloneNode(true));
+
+let parentElement = break_component.parentElement;
+parentElement.appendChild(autonRow);
+parentElement.appendChild(teleopRow);
+
 
     clearCycle(auton_specifier)
     clearCycle(teleop_specifier)
